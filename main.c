@@ -26,6 +26,7 @@ int main(void) {
     xi_select_events(XI_RawKeyPress);
     XEvent e;
     XGenericEventCookie *c;
+    int hidden = 0;
     while (!XNextEvent(d, &e)) {
         if (!XGetEventData(d, (c = &e.xcookie)))
             continue;
@@ -33,10 +34,14 @@ int main(void) {
             case XI_RawKeyPress:
                 xi_select_events(XI_RawMotion);
                 XFixesHideCursor(d, r);
+		hidden++;
                 break;
             case XI_RawMotion:
-                xi_select_events(XI_RawKeyPress);
-                XFixesShowCursor(d, r);
+                while (hidden > 0) {
+                    xi_select_events(XI_RawKeyPress);
+                    XFixesShowCursor(d, r);
+		    hidden--;
+		}
                 break;
         }
         XFreeEventData(d, c);
