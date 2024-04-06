@@ -40,6 +40,7 @@ int main(void) {
                 break;
         }
         XFreeEventData(d, c);
+        XSync(d, True);
     }
     XCloseDisplay(d);
 }
