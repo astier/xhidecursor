@@ -8,8 +8,9 @@
 
 ## Dependencies
 
+- libx11
 - libxi
-- libxifixes
+- libxfixes
 
 ## Installation
 
