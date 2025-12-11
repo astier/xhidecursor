@@ -1,0 +1,32 @@
+.TH XHIDECURSOR 1 "February 2025" "xhidecursor" "User Commands"
+.SH NAME
+xhidecursor \- hide the mouse cursor when typing
+
+.SH SYNOPSIS
+.B xhidecursor
+
+.SH DESCRIPTION
+xhidecursor hides the mouse cursor when a key is pressed and shows it again
+when the mouse is moved. It uses the XFixes extension and implements only the
+minimal required event handling. Compared to xbanish (nearly 500 lines of
+code), xhidecursor is much smaller (~40 lines) and uses less CPU.
+
+.SH USAGE
+xhidecursor runs in the background for the duration of the X session. To
+start it automatically:
+
+.nf
+    xhidecursor &
+.fi
+
+Place this line in ~/.xinitrc or your window manager startup file.
+
+.SH REQUIREMENTS
+The XFixes extension must be available on the X server.
+
+.SH SEE ALSO
+.BR XFixes (3)
+
+.SH AUTHORS
+xhidecursor was written by Aleksandrs Stier <aleks.stier@icloud.com>.
+
