@@ -1,7 +1,9 @@
-PREFIX  ?= /usr/local
-BINDIR  ?= $(PREFIX)/bin
-MANDIR  ?= $(PREFIX)/share/man/man1
-CC      ?= cc
+PREFIX     ?= /usr/local
+BINDIR     ?= $(PREFIX)/bin
+MANDIR     ?= $(PREFIX)/share/man/man1
+PKG_CONFIG ?= pkg-config
+
+PKGS = x11 xfixes xi
 
 CFLAGS += -std=c99 -O3 -pipe
 CFLAGS += -Wall
@@ -12,14 +14,18 @@ CFLAGS += -Wmissing-prototypes
 CFLAGS += -Wold-style-definition
 CFLAGS += -Wpedantic
 CFLAGS += -Wshadow
+
 all: xhidecursor
 
 xhidecursor: main.c Makefile
-	$(CC) $(CFLAGS) -o $@ main.c -lX11 -lXfixes -lXi
+	$(CC) $(CPPFLAGS) $(CFLAGS) `$(PKG_CONFIG) --cflags $(PKGS)` \
+	    -o $@ main.c $(LDFLAGS) `$(PKG_CONFIG) --libs $(PKGS)` $(LDLIBS)
 
 install: all
-	install -D xhidecursor $(DESTDIR)$(BINDIR)/xhidecursor
-	install -D -m 644 xhidecursor.1 $(DESTDIR)$(MANDIR)/xhidecursor.1
+	mkdir -p $(DESTDIR)$(BINDIR)
+	mkdir -p $(DESTDIR)$(MANDIR)
+	install -m 755 xhidecursor $(DESTDIR)$(BINDIR)/xhidecursor
+	install -m 644 xhidecursor.1 $(DESTDIR)$(MANDIR)/xhidecursor.1
 
 uninstall:
 	rm -f $(DESTDIR)$(BINDIR)/xhidecursor
