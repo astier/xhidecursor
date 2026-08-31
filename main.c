@@ -22,25 +22,21 @@ void xi_select_events(const int event) {
 }
 
 int main(void) {
-    int fixes_event, fixes_error;
-    int xi_major = 2, xi_minor = 0;
-
+    /* Check runtime requirements. */
     if (!(d = XOpenDisplay(NULL))) {
-        fprintf(stderr, "xhidecursor: couldn't open display %s\n",
-                XDisplayName(NULL));
+        fprintf(stderr, "xhidecursor: cannot open display %s\n", XDisplayName(NULL));
         return 1;
     }
-    if (!XFixesQueryExtension(d, &fixes_event, &fixes_error)) {
+    if (!XFixesQueryExtension(d, &(int){0}, &(int){0})) {
         fprintf(stderr, "xhidecursor: XFixes extension is unavailable\n");
         XCloseDisplay(d);
         return 1;
     }
-    if (XIQueryVersion(d, &xi_major, &xi_minor) != Success) {
-        fprintf(stderr, "xhidecursor: XInput2 extension is unavailable\n");
+    if (XIQueryVersion(d, &(int){2}, &(int){0}) != Success) {
+        fprintf(stderr, "xhidecursor: XInput2 version 2.0 is unavailable\n");
         XCloseDisplay(d);
         return 1;
     }
-
     r = XDefaultRootWindow(d);
     xi_select_events(XI_RawKeyPress);
     XEvent e;
