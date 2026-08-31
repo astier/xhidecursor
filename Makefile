@@ -5,7 +5,7 @@ PKG_CONFIG ?= pkg-config
 
 PKGS = x11 xfixes xi
 
-CFLAGS += -std=c99 -O3 -pipe
+CFLAGS += -std=c99
 CFLAGS += -Wall
 CFLAGS += -Wconversion
 CFLAGS += -Wdouble-promotion
