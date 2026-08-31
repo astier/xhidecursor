@@ -29,12 +29,12 @@ int main(void) {
         return 1;
     }
     if (!XFixesQueryExtension(d, &(int){0}, &(int){0})) {
-        fprintf(stderr, "xhidecursor: XFixes extension is unavailable\n");
+        fprintf(stderr, "xhidecursor: XFixes extension is required\n");
         XCloseDisplay(d);
         return 1;
     }
     if (XIQueryVersion(d, &(int){2}, &(int){0}) != Success) {
-        fprintf(stderr, "xhidecursor: XInput2 version 2.0 is unavailable\n");
+        fprintf(stderr, "xhidecursor: XInput2 version 2.0 or later is required\n");
         XCloseDisplay(d);
         return 1;
     }
